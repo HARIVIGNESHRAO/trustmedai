@@ -9,11 +9,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
+
+    @Value("${app.frontend-url:http://localhost:3000}")
+    private String frontendUrl;
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
@@ -80,7 +84,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 );
 
         response.sendRedirect(
-                "http://localhost:3000/oauth-success?token="
+                frontendUrl.replaceAll("/+$", "") + "/oauth-success?token="
                         + jwt
                         + "&role="
                         + user.getRole()

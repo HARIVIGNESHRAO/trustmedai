@@ -14,12 +14,6 @@ import com.trustmedai.backend.entity.AuditLog;
 import com.trustmedai.backend.repository.AuditLogRepository;
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = {
-        "http://localhost:3000",
-        "http://localhost",
-        "capacitor://localhost",
-        "http://192.168.1.101"
-})
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 

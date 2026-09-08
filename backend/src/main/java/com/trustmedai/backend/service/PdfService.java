@@ -6,6 +6,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.trustmedai.backend.entity.PredictionHistory;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.ByteArrayOutputStream;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PdfService {
+
+    @Value("${app.frontend-url:http://localhost:3000}")
+    private String frontendUrl;
 
     private static final BaseColor PRIMARY = new BaseColor(16, 185, 129);
     private static final BaseColor PRIMARY_DARK = new BaseColor(7, 17, 26);
@@ -220,7 +224,7 @@ public class PdfService {
                 )
         );
         String verificationUrl =
-                "http://localhost:3000/verify-report?hash="
+                frontendUrl.replaceAll("/+$", "") + "/verify-report?hash="
                         + history.getCurrentHash();
 
         byte[] qrBytes =

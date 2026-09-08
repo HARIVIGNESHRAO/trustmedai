@@ -2,6 +2,7 @@ package com.trustmedai.backend.service;
 
 import com.trustmedai.backend.dto.PredictionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import com.trustmedai.backend.dto.HospitalRequest;
 @Service
 public class PredictionService {
 
+    @Value("${app.ai-base-url:http://localhost:8000}")
+    private String aiBaseUrl;
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -21,8 +25,7 @@ public class PredictionService {
     public String predict(
             PredictionRequest request) {
 
-        String url =
-                "http://localhost:8000/predict";
+        String url = aiBaseUrl + "/predict";
 
         return restTemplate.postForObject(
                 url,
@@ -39,8 +42,7 @@ public class PredictionService {
 
         try {
 
-            String url =
-                    "http://localhost:8000/ocr-predict";
+            String url = aiBaseUrl + "/ocr-predict";
 
             HttpHeaders headers =
                     new HttpHeaders();
@@ -93,7 +95,7 @@ public class PredictionService {
     }
 
     public String analyzeVoiceReport(MultipartFile file) {
-        return forwardFile(file, "http://localhost:8000/voice-predict", "voice report");
+        return forwardFile(file, aiBaseUrl + "/voice-predict", "voice report");
     }
 
     private String forwardFile(MultipartFile file, String url, String description) {
@@ -128,8 +130,7 @@ public class PredictionService {
             HospitalRequest request
     ) {
 
-        String url =
-                "http://localhost:8000/recommend-hospitals";
+        String url = aiBaseUrl + "/recommend-hospitals";
 
         return restTemplate.postForObject(
                 url,

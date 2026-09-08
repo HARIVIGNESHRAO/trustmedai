@@ -28,15 +28,6 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(
-        origins = {
-                "http://localhost:3000",
-                "http://localhost",
-                "capacitor://localhost",
-                "http://192.168.1.101"
-        },
-        allowCredentials = "true"
-)
 public class TestController {
 
     @Autowired
