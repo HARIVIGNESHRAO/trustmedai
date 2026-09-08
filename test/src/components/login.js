@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from "next/navigation";
-import { API_ORIGIN, API_URL } from '@/lib/config'
+import { API_ORIGIN, API_URL, TURNSTILE_SITE_KEY } from '@/lib/config'
 
 export default function Login() {
   const containerRef = useRef(null)
@@ -424,7 +424,7 @@ async function handleVerifyOtp(e) {
             <div className="my-4">
               <div 
                 className="cf-turnstile" 
-                data-sitekey="0x4AAAAAADsNX-ZHiy8vakUX"
+                data-sitekey={TURNSTILE_SITE_KEY}
                 data-callback="onTurnstileSuccess"
                 data-theme="auto"
                 data-size="normal"
