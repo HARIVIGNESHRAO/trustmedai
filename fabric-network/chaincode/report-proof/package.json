@@ -1,0 +1,14 @@
+{
+  "name": "trustmedai-report-proof",
+  "version": "1.0.0",
+  "description": "Privacy-preserving medical report proof for Hyperledger Fabric",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "scripts": { "start": "fabric-chaincode-node start" },
+  "dependencies": {
+    "fabric-contract-api": "~2.5",
+    "fabric-shim": "~2.5",
+    "json-stringify-deterministic": "^1.0.0",
+    "sort-keys-recursive": "^2.1.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "appId": "com.trustmedai.app",
+  "appName": "TrustMedAI",
+  "webDir": "out",
+  "backgroundColor": "#020711",
+  "android": {
+    "allowMixedContent": true
+  }
+}

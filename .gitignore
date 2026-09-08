@@ -1,0 +1,64 @@
+# Secrets and local environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# JavaScript / Next.js
+**/node_modules/
+**/.next/
+**/out/
+**/coverage/
+**/.vercel/
+**/*.tsbuildinfo
+
+# Python
+**/venv/
+**/.venv/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+
+# Java / Gradle
+**/target/
+**/build/
+**/.gradle/
+
+# Android generated output and signing credentials
+**/android/**/build/
+**/android/.gradle/
+**/local.properties
+**/*.apk
+**/*.aab
+**/*.jks
+**/*.keystore
+
+# IDE and operating-system files
+**/.idea/
+**/.vscode/
+**/*.iml
+.DS_Store
+
+# Runtime data and logs
+monitoring/data/
+*.log
+
+# Local archives, generated reports, and downloaded Hyperledger samples
+test.zip
+fabric-network/fabric-samples/
+image.png
+image (1).png
+trustmedai_test_report.pdf
+trustmedai_test_report.png
+unit6.pdf
+unit7.pdf
+
+# Recoverable backup of the frontend's former nested Git metadata
+test/.git.frontend-backup/
+
+# Temporary files
+*.tmp
+*.swp
+*~
