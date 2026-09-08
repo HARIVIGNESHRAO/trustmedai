@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import org.springframework.security.core.Authentication;
 import com.trustmedai.backend.util.HashUtil;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -361,16 +362,24 @@ public class TestController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         System.out.println("LOGIN API HIT");
 
         // Cloudflare Turnstile Verification
         if (request.getTurnstileToken() == null || request.getTurnstileToken().isEmpty()) {
-            throw new RuntimeException("Security verification failed. Please complete the check.");
+            return ResponseEntity.badRequest().body(new LoginResponse(
+                    null,
+                    "Please complete the security verification.",
+                    null
+            ));
         }
 
         if (!turnstileService.verifyToken(request.getTurnstileToken())) {
-            throw new RuntimeException("Security verification failed. Please try again.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(
+                    null,
+                    "Security verification failed. Refresh the page and try again.",
+                    null
+            ));
         }
 
         User user = userRepository
@@ -378,7 +387,11 @@ public class TestController {
                 .orElse(null);
 
         if (user == null) {
-            throw new RuntimeException("User Not Found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(
+                    null,
+                    "Invalid username or password.",
+                    null
+            ));
         }
 
         boolean matches = passwordEncoder.matches(
@@ -396,7 +409,11 @@ public class TestController {
                     "LOCALHOST"
             );
 
-            throw new RuntimeException("Invalid Password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(
+                    null,
+                    "Invalid username or password.",
+                    null
+            ));
         }
 
         String token = jwtUtil.generateToken(
@@ -411,11 +428,11 @@ public class TestController {
                 "SUCCESS",
                 "LOCALHOST"
         );
-        return new LoginResponse(
+        return ResponseEntity.ok(new LoginResponse(
                 token,
                 "Login Successful",
                 user.getRole()
-        );
+        ));
     }
     @GetMapping("/hello")
     public String hello() {

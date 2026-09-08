@@ -2,6 +2,8 @@ package com.trustmedai.backend.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -11,6 +13,8 @@ import java.util.Map;
 
 @Service
 public class TurnstileService {
+
+    private static final Logger log = LoggerFactory.getLogger(TurnstileService.class);
 
     @Value("${cloudflare.turnstile.secret-key}")
     private String secretKey;
@@ -36,10 +40,17 @@ public class TurnstileService {
                     .block();
 
             Boolean success = (Boolean) response.get("success");
+            if (!Boolean.TRUE.equals(success)) {
+                log.warn(
+                        "Turnstile verification rejected: errors={}, hostname={}",
+                        response.get("error-codes"),
+                        response.get("hostname")
+                );
+            }
             return Boolean.TRUE.equals(success);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Turnstile verification request failed", e);
             return false;
         }
     }
