@@ -1,4 +1,6 @@
-const configuredApiOrigin = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080";
+const configuredApiOrigin =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  "https://trustmedai-backend.onrender.com";
 
 export const API_ORIGIN = configuredApiOrigin.replace(/\/+$/, "");
 export const API_URL = `${API_ORIGIN}/api`;
